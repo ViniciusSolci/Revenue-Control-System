@@ -22,7 +22,7 @@ public class ServicesDAO {
             preparedStatement.setString(2, services.getDescription());
             preparedStatement.setDouble(3, services.getTotalHours());
             preparedStatement.setDouble(4, services.getHourCost());
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (ClassNotFoundException | SQLException exception) {
             throw new RuntimeException(exception);
