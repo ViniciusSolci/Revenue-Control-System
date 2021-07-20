@@ -12,4 +12,9 @@ public class BasicLevelStudent extends GeneralStudent {
     public double getMonthlyPayment() {
         return monthlyPayment;
     }
+
+    @Override
+    public String toString(){
+        return "Id: " + this.getId() +" | Name: " + this.getName() + " | Monthly payment: " + this.getMonthlyPayment();
+    }
 }

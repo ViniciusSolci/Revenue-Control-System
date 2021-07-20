@@ -17,4 +17,9 @@ public class SuperiorLevelStudent extends GeneralStudent {
     public double getCreditsCost() {
         return creditsCost;
     }
+
+    @Override
+    public String toString(){
+        return "Id: " + this.getId() +" | Name: " + this.getName() + " | Total credits: " + this.getTotalCredits() + " | Credits Cost: " + this.getCreditsCost();
+    }
 }

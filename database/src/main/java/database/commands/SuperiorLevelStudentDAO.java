@@ -22,7 +22,7 @@ public class SuperiorLevelStudentDAO {
             preparedStatement.setString(2, superiorLevelStudent.getName());
             preparedStatement.setDouble(3, superiorLevelStudent.getCreditsCost());
             preparedStatement.setDouble(4, superiorLevelStudent.getTotalCredits());
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (ClassNotFoundException | SQLException exception) {
             throw new RuntimeException(exception);
@@ -47,10 +47,10 @@ public class SuperiorLevelStudentDAO {
     public static void delete(int id) {
         try(Connection conn = ConnectDatabase.getConnection()) {
             String sql = "delete from superior_level_student where id = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, id);
-            ps.executeUpdate();
-            ps.close();
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
         } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -61,7 +61,6 @@ public class SuperiorLevelStudentDAO {
             String sql = "select * from superior_level_student";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
-            preparedStatement.close();
             List<SuperiorLevelStudent> allSuperiorLevelStudents = new ArrayList<>();
             while(resultSet.next()) {
                 SuperiorLevelStudent superiorLevelStudent = new SuperiorLevelStudent(
@@ -71,6 +70,7 @@ public class SuperiorLevelStudentDAO {
                         resultSet.getDouble(4));
                 allSuperiorLevelStudents.add(superiorLevelStudent);
             }
+            preparedStatement.close();
             return allSuperiorLevelStudents;
         } catch (ClassNotFoundException | SQLException exception) {
             throw new RuntimeException(exception);
@@ -82,15 +82,16 @@ public class SuperiorLevelStudentDAO {
             String sql = "select * from superior_level_student where id = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setInt(1, id);
-            preparedStatement.close();
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next()) {
+                preparedStatement.close();
                 return new SuperiorLevelStudent(
                         resultSet.getInt(1),
                         resultSet.getString(2),
                         resultSet.getDouble(3),
                         resultSet.getDouble(4));
             }
+            preparedStatement.close();
             return null;
         } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);

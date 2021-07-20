@@ -1,7 +1,7 @@
 package entities.commands;
 
-import database.commands.BasicLevelStudentDAO;
-import entities.students.BasicLevelStudent;
+import database.commands.ServicesDAO;
+import entities.Services;
 import org.jline.reader.LineReader;
 
 import java.util.List;
@@ -10,38 +10,40 @@ public class ServicesCommands {
     private ServicesCommands() {
     }
 
-    private static final String ENTER_STUDENT_ID = "Enter student id: ";
+    private static final String ENTER_SERVICE_ID = "Enter service id: ";
     private static LineReader reader;
 
     public static void insertOrUpdate(int command){
-        int id = Integer.parseInt(reader.readLine(ENTER_STUDENT_ID));
-        String name = reader.readLine("Enter student name: ");
+        int id = Integer.parseInt(reader.readLine(ENTER_SERVICE_ID));
+        String description = reader.readLine("Enter service description: ");
+        double totalHours = Double.parseDouble(reader.readLine("Enter hours of service: "));
+        double hourCost = Double.parseDouble(reader.readLine("Enter hour cost: "));
 
-        BasicLevelStudent basicLevelStudent = new BasicLevelStudent(id, name, BasicLevelStudentDAO.getMonthlyPayment());
+        Services services = new Services(id, description, totalHours, hourCost);
 
         if (command == 1){
-            BasicLevelStudentDAO.insert(basicLevelStudent);
-        } else  BasicLevelStudentDAO.update(basicLevelStudent);
+            ServicesDAO.insert(services);
+        } else  ServicesDAO.update(services);
     }
 
     public static void delete(){
-        int id = Integer.parseInt(reader.readLine(ENTER_STUDENT_ID));
-        BasicLevelStudentDAO.delete(id);
+        int id = Integer.parseInt(reader.readLine(ENTER_SERVICE_ID));
+        ServicesDAO.delete(id);
     }
 
-    public static void showAllBasicLevelStudents(){
-        List<BasicLevelStudent> allBasicLevelStudents = BasicLevelStudentDAO.getAllBasicLevelStudents();
-        for (BasicLevelStudent student : allBasicLevelStudents) {
-            System.out.println(student);
+    public static void showAllServices(){
+        List<Services> allServices = ServicesDAO.getAllServices();
+        for (Services services : allServices) {
+            System.out.println(services);
             System.out.println("\n---------------\n");
         }
     }
 
-    public static void showSpecificBasicLevelStudent(){
-        int id = Integer.parseInt(reader.readLine(ENTER_STUDENT_ID));
-        BasicLevelStudent student = BasicLevelStudentDAO.getSingleBasicLevelStudent(id);
-        if (student != null){
-            System.out.println(student);
-        } else System.out.println("Student not found");
+    public static void showSpecificService(){
+        int id = Integer.parseInt(reader.readLine(ENTER_SERVICE_ID));
+        Services services = ServicesDAO.getSingleServices(id);
+        if (services != null){
+            System.out.println(services);
+        } else System.out.println("Service not found");
     }
 }
