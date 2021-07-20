@@ -72,7 +72,6 @@ public class BasicLevelStudentDAO {
         }
     }
 
-
     public static BasicLevelStudent getSingleBasicLevelStudent(int id) {
         try(Connection conn = ConnectDatabase.getConnection()) {
             String sql = "select * from basic_level_student where id = ?";

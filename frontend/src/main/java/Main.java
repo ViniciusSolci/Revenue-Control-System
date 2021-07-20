@@ -1,5 +1,3 @@
-import database.connection.*;
-
 import java.sql.SQLException;
 
 public class Main {
