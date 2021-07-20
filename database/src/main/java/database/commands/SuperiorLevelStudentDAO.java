@@ -16,7 +16,7 @@ public class SuperiorLevelStudentDAO {
 
     public static void insert(SuperiorLevelStudent superiorLevelStudent){
         try(Connection conn = ConnectDatabase.getConnection()) {
-            String sql = "insert into superior_level_student (id, name, totalCredits, credits_cost) values (?, ?, ?, ?)";
+            String sql = "insert into superior_level_student (id, name, total_credits, credits_cost) values (?, ?, ?, ?)";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setInt(1, superiorLevelStudent.getId());
             preparedStatement.setString(2, superiorLevelStudent.getName());

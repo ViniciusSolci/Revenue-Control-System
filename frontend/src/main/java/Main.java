@@ -1,7 +1,7 @@
-import database.commands.BasicLevelStudentDAO;
 import database.connection.ConnectDatabase;
 import database.connection.TablesCreation;
 
+import database.utils.TestObjects;
 import entities.commands.BasicLevelStudentCommands;
 import entities.commands.RevenueCommands;
 import entities.commands.ServicesCommands;
@@ -12,12 +12,12 @@ import org.jline.reader.LineReaderBuilder;
 
 import java.sql.SQLException;
 
-
 public class Main {
     private static final String COMMAND_NOT_FOUND = "Command not found";
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         TablesCreation.run();
+        ///TestObjects.populateTablesForTests();
         LineReader reader = LineReaderBuilder.builder().terminal(null).completer(null).build();
         int command;
 
@@ -40,7 +40,8 @@ public class Main {
                 case (4):
                     int commandTarget;
                     Menu.separator();
-                    Menu.specificRevenueMenu();                    commandTarget = Integer.parseInt(reader.readLine(""));
+                    Menu.specificRevenueMenu();
+                    commandTarget = Integer.parseInt(reader.readLine(""));
                     RevenueCommands.getSpecificRevenue(commandTarget);
                     break;
                 case (5):
