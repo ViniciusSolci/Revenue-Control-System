@@ -1,7 +1,6 @@
 package database.commands;
 
 import database.connection.ConnectDatabase;
-import entities.courses.Courses;
 import entities.students.SuperiorLevelStudent;
 
 import java.sql.Connection;
@@ -17,11 +16,11 @@ public class SuperiorLevelStudentDAO {
 
     public static void insert(SuperiorLevelStudent superiorLevelStudent){
         try(Connection conn = ConnectDatabase.getConnection()) {
-            String sql = "insert into superior_level_student (id, name, course, totalCredits) values (?, ?, ?, ?)";
+            String sql = "insert into superior_level_student (id, name, totalCredits, credits_cost) values (?, ?, ?, ?)";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setInt(1, superiorLevelStudent.getId());
             preparedStatement.setString(2, superiorLevelStudent.getName());
-            preparedStatement.setString(3, superiorLevelStudent.getCourse().toString());
+            preparedStatement.setDouble(3, superiorLevelStudent.getCreditsCost());
             preparedStatement.setDouble(4, superiorLevelStudent.getTotalCredits());
             preparedStatement.executeQuery();
             preparedStatement.close();
@@ -32,10 +31,10 @@ public class SuperiorLevelStudentDAO {
 
     public static void update(SuperiorLevelStudent superiorLevelStudent) {
         try(Connection conn = ConnectDatabase.getConnection()) {
-            String sql = "update superior_level_student set name = ?, course = ?, total_credits = ? where id = ?";
+            String sql = "update superior_level_student set name = ?, total_credits = ?, credits_cost = ? where id = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, superiorLevelStudent.getName());
-            preparedStatement.setString(2, superiorLevelStudent.getCourse().toString());
+            preparedStatement.setDouble(2, superiorLevelStudent.getCreditsCost());
             preparedStatement.setDouble(3, superiorLevelStudent.getTotalCredits());
             preparedStatement.setInt(4, superiorLevelStudent.getId());
             preparedStatement.executeUpdate();
@@ -69,7 +68,7 @@ public class SuperiorLevelStudentDAO {
                         resultSet.getInt(1),
                         resultSet.getString(2),
                         resultSet.getDouble(3),
-                        (Courses) resultSet.getObject(4));
+                        resultSet.getDouble(4));
                 allSuperiorLevelStudents.add(superiorLevelStudent);
             }
             return allSuperiorLevelStudents;
@@ -77,7 +76,6 @@ public class SuperiorLevelStudentDAO {
             throw new RuntimeException(exception);
         }
     }
-
 
     public static SuperiorLevelStudent getSingleSuperiorLevelStudent(int id) {
         try(Connection conn = ConnectDatabase.getConnection()) {
@@ -91,7 +89,7 @@ public class SuperiorLevelStudentDAO {
                         resultSet.getInt(1),
                         resultSet.getString(2),
                         resultSet.getDouble(3),
-                        (Courses) resultSet.getObject(4));
+                        resultSet.getDouble(4));
             }
             return null;
         } catch (ClassNotFoundException | SQLException e) {

@@ -1,23 +1,20 @@
 package entities.students;
 
-import entities.courses.Courses;
-
 public class SuperiorLevelStudent extends GeneralStudent {
     private final double totalCredits;
-    private final Courses course;
+    private final double creditsCost;
 
-    public SuperiorLevelStudent(int id, String name, double totalCredits, Courses course) {
+    public SuperiorLevelStudent(int id, String name, double totalCredits, double creditsCost) {
         super(id, name);
         this.totalCredits = totalCredits;
-        this.course = course;
+        this.creditsCost = creditsCost;
     }
 
     public double getTotalCredits() {
         return totalCredits;
     }
 
-    public Courses getCourse() {
-        return course;
+    public double getCreditsCost() {
+        return creditsCost;
     }
-
 }

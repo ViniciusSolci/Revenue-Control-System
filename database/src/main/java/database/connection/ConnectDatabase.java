@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectDatabase {
+    private ConnectDatabase() {
+    }
+
     public static Connection getConnection() throws ClassNotFoundException, SQLException {
         Class.forName("org.hsqldb.jdbc.JDBCDriver");
         return DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/finalprojectdb", "SA", "");

@@ -1,7 +1,7 @@
 package database.commands;
 
 import database.connection.ConnectDatabase;
-import entities.courses.Courses;
+import entities.Services;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,17 +10,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CoursesDAO {
-    private CoursesDAO() {
+public class ServicesDAO {
+    private ServicesDAO() {
     }
 
-    public static void insert(Courses courses){
+    public static void insert(Services services){
         try(Connection conn = ConnectDatabase.getConnection()) {
-            String sql = "insert into courses (id, name, credits_cost) values (?, ?, ?)";
+            String sql = "insert into services (id, name, total_hours, hour_cost) values (?, ?, ?, ?)";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setInt(1, courses.getId());
-            preparedStatement.setString(2, courses.getName());
-            preparedStatement.setDouble(3, courses.getCreditsCost());
+            preparedStatement.setInt(1, services.getId());
+            preparedStatement.setString(2, services.getDescription());
+            preparedStatement.setDouble(3, services.getTotalHours());
+            preparedStatement.setDouble(4, services.getHourCost());
             preparedStatement.executeQuery();
             preparedStatement.close();
         } catch (ClassNotFoundException | SQLException exception) {
@@ -28,13 +29,14 @@ public class CoursesDAO {
         }
     }
 
-    public static void update(Courses courses) {
+    public static void update(Services services) {
         try(Connection conn = ConnectDatabase.getConnection()) {
-            String sql = "update courses set name = ?, credits_cost = ? where id = ?";
+            String sql = "update services set name = ?, total_hours = ?, hour_cost = ? where id = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1, courses.getName());
-            preparedStatement.setDouble(2, courses.getCreditsCost());
-            preparedStatement.setInt(3, courses.getId());
+            preparedStatement.setString(1, services.getDescription());
+            preparedStatement.setDouble(2, services.getTotalHours());
+            preparedStatement.setDouble(3, services.getHourCost());
+            preparedStatement.setInt(4, services.getId());
             preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (ClassNotFoundException | SQLException e) {
@@ -44,7 +46,7 @@ public class CoursesDAO {
 
     public static void delete(int id) {
         try(Connection conn = ConnectDatabase.getConnection()) {
-            String sql = "delete from courses where id = ?";
+            String sql = "delete from services where id = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, id);
             ps.executeUpdate();
@@ -54,39 +56,40 @@ public class CoursesDAO {
         }
     }
 
-    public static List<Courses> getAllCourses() {
+    public static List<Services> getAllServices() {
         try(Connection conn = ConnectDatabase.getConnection()) {
-            String sql = "select * from courses";
+            String sql = "select * from services";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
             preparedStatement.close();
-            List<Courses> allCourses = new ArrayList<>();
+            List<Services> allServices = new ArrayList<>();
             while(resultSet.next()) {
-                Courses courses = new Courses(
+                Services services = new Services(
                         resultSet.getInt(1),
                         resultSet.getString(2),
-                        resultSet.getDouble(3));
-                allCourses.add(courses);
+                        resultSet.getDouble(3),
+                        resultSet.getDouble(4));
+                allServices.add(services);
             }
-            return allCourses;
+            return allServices;
         } catch (ClassNotFoundException | SQLException exception) {
             throw new RuntimeException(exception);
         }
     }
 
-
-    public static Courses getSingleCourses(int id) {
+    public static Services getSingleServices(int id) {
         try(Connection conn = ConnectDatabase.getConnection()) {
-            String sql = "select * from courses where id = ?";
+            String sql = "select * from services where id = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             preparedStatement.close();
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next()) {
-                return new Courses(
+                return new Services(
                         resultSet.getInt(1),
                         resultSet.getString(2),
-                        resultSet.getDouble(3));
+                        resultSet.getDouble(3),
+                        resultSet.getDouble(4));
             }
             return null;
         } catch (ClassNotFoundException | SQLException e) {
