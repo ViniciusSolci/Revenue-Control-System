@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BasicLevelStudentDAO {
-    
+    private BasicLevelStudentDAO() {
+    }
+
     public static void insert(BasicLevelStudent basicLevelStudent){
         try(Connection conn = ConnectDatabase.getConnection()) { 
             String sql = "insert into basic_level_student (id, name, monthly_payment) values (?, ?, ?)";
@@ -86,6 +88,21 @@ public class BasicLevelStudentDAO {
                         resultSet.getDouble(3));
             }
             return null;
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static double getMonthlyPayment() {
+        try(Connection conn = ConnectDatabase.getConnection()) {
+            String sql = "select monthly_payment from basic_level_student where id = 1";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.close();
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+               return resultSet.getDouble(1);
+            }
+            return 50;
         } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
