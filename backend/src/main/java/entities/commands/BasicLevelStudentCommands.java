@@ -3,6 +3,7 @@ package entities.commands;
 import database.commands.BasicLevelStudentDAO;
 import entities.students.BasicLevelStudent;
 import org.jline.reader.LineReader;
+import org.jline.reader.LineReaderBuilder;
 
 import java.util.List;
 
@@ -11,11 +12,11 @@ public class BasicLevelStudentCommands {
     }
 
     private static final String ENTER_STUDENT_ID = "Enter student id: ";
-    private static LineReader reader;
+    private static final LineReader READER = LineReaderBuilder.builder().terminal(null).completer(null).build();
 
     public static void insertOrUpdate(int command){
-        int id = Integer.parseInt(reader.readLine(ENTER_STUDENT_ID));
-        String name = reader.readLine("Enter student name: ");
+        int id = Integer.parseInt(READER.readLine(ENTER_STUDENT_ID));
+        String name = READER.readLine("Enter student name: ");
 
         BasicLevelStudent basicLevelStudent = new BasicLevelStudent(id, name, BasicLevelStudentDAO.getMonthlyPayment());
 
@@ -25,7 +26,7 @@ public class BasicLevelStudentCommands {
     }
 
     public static void delete(){
-        int id = Integer.parseInt(reader.readLine(ENTER_STUDENT_ID));
+        int id = Integer.parseInt(READER.readLine(ENTER_STUDENT_ID));
         BasicLevelStudentDAO.delete(id);
     }
 
@@ -38,10 +39,15 @@ public class BasicLevelStudentCommands {
     }
 
     public static void showSpecificBasicLevelStudent(){
-        int id = Integer.parseInt(reader.readLine(ENTER_STUDENT_ID));
+        int id = Integer.parseInt(READER.readLine(ENTER_STUDENT_ID));
         BasicLevelStudent student = BasicLevelStudentDAO.getSingleBasicLevelStudent(id);
         if (student != null){
             System.out.println(student);
         } else System.out.println("Student not found");
+    }
+
+    public static void updateMonthlyPayment(){
+        double newMonthlyPayment = Double.parseDouble(READER.readLine(ENTER_STUDENT_ID));
+        BasicLevelStudentDAO.updateMonthlyPayment(newMonthlyPayment);
     }
 }

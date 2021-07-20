@@ -10,5 +10,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="database" />
     <orderEntry type="library" name="jline-reader-3.20.0" level="project" />
+    <orderEntry type="library" name="jline-terminal-3.20.0" level="project" />
   </component>
 </module>

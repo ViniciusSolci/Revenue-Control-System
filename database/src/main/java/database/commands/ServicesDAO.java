@@ -16,7 +16,7 @@ public class ServicesDAO {
 
     public static void insert(Services services){
         try(Connection conn = ConnectDatabase.getConnection()) {
-            String sql = "insert into services (id, name, total_hours, hour_cost) values (?, ?, ?, ?)";
+            String sql = "insert into services (id, description, total_hours, hour_cost) values (?, ?, ?, ?)";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setInt(1, services.getId());
             preparedStatement.setString(2, services.getDescription());
@@ -31,7 +31,7 @@ public class ServicesDAO {
 
     public static void update(Services services) {
         try(Connection conn = ConnectDatabase.getConnection()) {
-            String sql = "update services set name = ?, total_hours = ?, hour_cost = ? where id = ?";
+            String sql = "update services set description = ?, total_hours = ?, hour_cost = ? where id = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, services.getDescription());
             preparedStatement.setDouble(2, services.getTotalHours());

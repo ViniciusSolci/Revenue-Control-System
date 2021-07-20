@@ -1,7 +1,7 @@
 package entities.commands;
 
-import database.commands.BasicLevelStudentDAO;
-import entities.students.BasicLevelStudent;
+import database.commands.SuperiorLevelStudentDAO;
+import entities.students.SuperiorLevelStudent;
 import org.jline.reader.LineReader;
 
 import java.util.List;
@@ -16,30 +16,32 @@ public class SuperiorLevelStudentCommands {
     public static void insertOrUpdate(int command){
         int id = Integer.parseInt(reader.readLine(ENTER_STUDENT_ID));
         String name = reader.readLine("Enter student name: ");
+        double totalCredits = Double.parseDouble(reader.readLine("Enter student total credits: "));
+        double creditsCost = Double.parseDouble(reader.readLine("Enter the credits cost: "));
 
-        BasicLevelStudent basicLevelStudent = new BasicLevelStudent(id, name, BasicLevelStudentDAO.getMonthlyPayment());
+        SuperiorLevelStudent superiorLevelStudent = new SuperiorLevelStudent(id, name, totalCredits, creditsCost);
 
         if (command == 1){
-            BasicLevelStudentDAO.insert(basicLevelStudent);
-        } else  BasicLevelStudentDAO.update(basicLevelStudent);
+            SuperiorLevelStudentDAO.insert(superiorLevelStudent);
+        } else  SuperiorLevelStudentDAO.update(superiorLevelStudent);
     }
 
     public static void delete(){
         int id = Integer.parseInt(reader.readLine(ENTER_STUDENT_ID));
-        BasicLevelStudentDAO.delete(id);
+        SuperiorLevelStudentDAO.delete(id);
     }
 
     public static void showAllBasicLevelStudents(){
-        List<BasicLevelStudent> allBasicLevelStudents = BasicLevelStudentDAO.getAllBasicLevelStudents();
-        for (BasicLevelStudent student : allBasicLevelStudents) {
-            System.out.println(student);
+        List<SuperiorLevelStudent> allSuperiorLevelStudents = SuperiorLevelStudentDAO.getAllSuperiorLevelStudents();
+        for (SuperiorLevelStudent student : allSuperiorLevelStudents) {
+            System.out.println(student.toString());
             System.out.println("\n---------------\n");
         }
     }
 
     public static void showSpecificBasicLevelStudent(){
         int id = Integer.parseInt(reader.readLine(ENTER_STUDENT_ID));
-        BasicLevelStudent student = BasicLevelStudentDAO.getSingleBasicLevelStudent(id);
+        SuperiorLevelStudent student = SuperiorLevelStudentDAO.getSingleSuperiorLevelStudent(id);
         if (student != null){
             System.out.println(student);
         } else System.out.println("Student not found");
