@@ -13,5 +13,3 @@ Vinícius Sampaio Solci - SC3005321
 Gabriela Guimarães -  SC3005038
 
 Ygor Dias - SC3006735
-
-
